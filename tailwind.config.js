@@ -5,8 +5,16 @@ module.exports = {
     "./templates/**/*.html.twig",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'darkBlue': '#0f172a',
+        'white' : ' #FAFAFA',
+        'lightenDarkBlue' : '#1D2535',
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
 
