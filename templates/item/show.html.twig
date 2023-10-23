@@ -5,42 +5,19 @@
 {% block body %}
     <h1>Item</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ item.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ item.title }}</td>
-            </tr>
-            <tr>
-                <th>Author</th>
-                <td>{{ item.author }}</td>
-            </tr>
-            <tr>
-                <th>Editor</th>
-                <td>{{ item.editor }}</td>
-            </tr>
-            <tr>
-                <th>Dev</th>
-                <td>{{ item.dev }}</td>
-            </tr>
-            <tr>
-                <th>Platform</th>
-                <td>{{ item.platform }}</td>
-            </tr>
-            <tr>
-                <th>NbPlayer</th>
-                <td>{{ item.nbPlayer }}</td>
-            </tr>
-            <tr>
-                <th>Maker</th>
-                <td>{{ item.maker }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <p>Id: {{ item.id }}</p>
+    <p>Titre: {{ item.title }}</p>
+    <p>Auteur: {{ item.author }}</p>
+    <p>Editeur: {{ item.editor }}</p>
+    <p>Développeur: {{ item.dev }}</p>
+    <p>Plateforme: {{ item.platform }}</p>
+    <p>Nb joeurs: {{ item.nbPlayer }}</p>
+    <p>Fabriquant: {{ item.maker }}</p>
+
+    <p>
+        <a href="{{ path('app_item_show', {'id': item.id}) }}">show</a>
+        <a href="{{ path('app_item_edit', {'id': item.id}) }}">edit</a>
+    </p>
 
     <a href="{{ path('app_item_index') }}">back to list</a>
 

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Borrow;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,6 @@ class BorrowType extends AbstractType
         $builder
             ->add('startDate')
             ->add('endDate')
-            ->add('user')
         ;
     }
 
@@ -22,6 +22,7 @@ class BorrowType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Borrow::class,
+            'user' => User::class
         ]);
     }
 }
