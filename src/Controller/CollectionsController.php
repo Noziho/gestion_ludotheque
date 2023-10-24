@@ -94,11 +94,15 @@ class CollectionsController extends AbstractController
             $collection = $collectionsRepository->find($_POST['collections']);
             $item = $itemRepository->find($_POST['items']);
 
-            $collection->addItem($item);
+            if ($item->getCategory()->getId() === $collection->getCategory()->getId()){
+                $collection->addItem($item);
 
-            $em->persist($collection);
+                $em->persist($collection);
 
-            $em->flush();
+                $em->flush();
+            }
+
+
         }
 
         return  $this->render('collection/addItem.html.twig', [
