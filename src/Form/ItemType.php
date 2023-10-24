@@ -28,6 +28,7 @@ class ItemType extends AbstractType
             ->add('nbPlayer')
             ->add('maker')
             ->add('category', ChoiceType::class, [
+                'label' => 'Catégorie' ,
                 'choices' => [
                     'Jeux vidéos'  => $this->categoryRepository->find(1),
                     'Jeux de sociétés'  => $this->categoryRepository->find(2),

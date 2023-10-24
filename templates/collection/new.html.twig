@@ -4,8 +4,12 @@
 
 {% block body %}
     <h1>Create new Collection</h1>
+    <div class="flex flex-wrap justify-center min-h-screen w-full mt-80">
+        <div class="w-1/4">
+            {{ include('collection/_form.html.twig') }}
+        </div>
+    </div>
 
-    {{ include('collection/_form.html.twig') }}
 
     <a href="{{ path('app_collection_index') }}">back to list</a>
 {% endblock %}
