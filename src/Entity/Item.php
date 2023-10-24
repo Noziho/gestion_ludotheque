@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,6 +40,10 @@ class Item
 
     #[ORM\ManyToOne(inversedBy: 'items')]
     private ?Category $category = null;
+
+
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Collections $collections = null;
 
 
     public function getId(): ?int
@@ -152,6 +155,18 @@ class Item
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCollections(): Collections
+    {
+        return $this->collections;
+    }
+
+    public function setCollections(?Collections $collections): static
+    {
+        $this->collections = $collections;
 
         return $this;
     }

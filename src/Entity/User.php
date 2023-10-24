@@ -125,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Borrow>
+     * @return Collections<int, Borrow>
      */
     public function getBorrow(): Collection
     {

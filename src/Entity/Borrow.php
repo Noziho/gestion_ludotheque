@@ -75,7 +75,7 @@ class Borrow
     }
 
     /**
-     * @return Collection<int, Item>
+     * @return Collections<int, Item>
      */
     public function getItem(): Collection
     {

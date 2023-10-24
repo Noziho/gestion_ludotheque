@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Collection;
+use App\Entity\Collections;
 use App\Repository\CategoryRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,7 +34,7 @@ class CollectionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Collection::class,
+            'data_class' => Collections::class,
         ]);
     }
 }

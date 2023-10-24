@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\CollectionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+#[ORM\Entity(repositoryClass: CollectionsRepository::class)]
+class Collections
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,15 +18,14 @@ class Category
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Collections::class)]
-    private Collection $collections;
+    #[ORM\ManyToOne(inversedBy: 'collections')]
+    private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Item::class)]
+    #[ORM\OneToMany(mappedBy: 'collections', targetEntity: Item::class)]
     private Collection $items;
 
     public function __construct()
     {
-        $this->collections = new ArrayCollection();
         $this->items = new ArrayCollection();
     }
 
@@ -47,38 +46,20 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collections<int, Collections>
-     */
-    public function getCollections(): Collection
+    public function getCategory(): ?Category
     {
-        return $this->collections;
+        return $this->category;
     }
 
-    public function addCollection(Collections $collection): static
+    public function setCategory(?Category $category): static
     {
-        if (!$this->collections->contains($collection)) {
-            $this->collections->add($collection);
-            $collection->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCollection(Collections $collection): static
-    {
-        if ($this->collections->removeElement($collection)) {
-            // set the owning side to null (unless already changed)
-            if ($collection->getCategory() === $this) {
-                $collection->setCategory(null);
-            }
-        }
+        $this->category = $category;
 
         return $this;
     }
 
     /**
-     * @return Collections<int, Item>
+     * @return Collection<int, Item>
      */
     public function getItems(): Collection
     {
@@ -89,7 +70,7 @@ class Category
     {
         if (!$this->items->contains($item)) {
             $this->items->add($item);
-            $item->setCategory($this);
+            $item->setCollections($this);
         }
 
         return $this;
@@ -99,11 +80,12 @@ class Category
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getCategory() === $this) {
-                $item->setCategory(null);
+            if ($item->getCollections() === $this) {
+                $item->setCollections(null);
             }
         }
 
         return $this;
     }
+
 }
