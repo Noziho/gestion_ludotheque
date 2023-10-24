@@ -3,24 +3,18 @@
 {% block title %}Collection{% endblock %}
 
 {% block body %}
-    <h1>Collection</h1>
+    <h1>Details de la collection</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ collection.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ collection.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="w-full flex flex-col ">
+        <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+            <h2 class="text-2xl">{{ collection.name }}</h2>
+            <p>{{ collection.category.name }}</p>
+            <div class="mt-4">
+                <a href="{{ path('app_collection_edit', {'id': collection.id}) }}" class="ml-4">Editer</a>
+                <a href="{{ path('app_collection_delete', {'id' : collection.id}) }}" class="ml-4">Supprimer</a>
+            </div>
+        </div>
+</div>
+<a href="{{ path('app_collection_index') }}" class="ml-4">Retour arrière (page des collections)</a>
 
-    <a href="{{ path('app_collection_index') }}">back to list</a>
-
-    <a href="{{ path('app_collection_edit', {'id': collection.id}) }}">edit</a>
-
-    {{ include('collection/_delete_form.html.twig') }}
 {% endblock %}

@@ -3,25 +3,28 @@
 {% block title %}Item index{% endblock %}
 
 {% block body %}
-    <h1>Item index</h1>
 
-        {% for item in items %}
-                <p>Id: {{ item.id }}</p>
-                <p>Titre: {{ item.title }}</p>
-                <p>Auteur: {{ item.author }}</p>
-                <p>Editeur: {{ item.editor }}</p>
-                <p>Développeur: {{ item.dev }}</p>
-                <p>Plateforme: {{ item.platform }}</p>
-                <p>Nb joeurs: {{ item.nbPlayer }}</p>
-                <p>Fabriquant: {{ item.maker }}</p>
-                <p>
-                    <a href="{{ path('app_item_show', {'id': item.id}) }}">show</a>
-                    <a href="{{ path('app_item_edit', {'id': item.id}) }}">edit</a>
-                </p>
-        {% else %}
-            <p>Aucun item n'a été trouvé</p>
-        {% endfor %}
-
+    <h1 class="text-2xl ml-4">Item index</h1>
+    <div class="w-full flex flex-col ">
+            {% for item in items %}
+                <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+                    <p>Id: {{ item.id }}</p>
+                    <p>Titre: {{ item.title }}</p>
+                    <p>Auteur: {{ item.author }}</p>
+                    <p>Editeur: {{ item.editor }}</p>
+                    <p>Développeur: {{ item.dev }}</p>
+                    <p>Plateforme: {{ item.platform }}</p>
+                    <p>Nb joeurs: {{ item.nbPlayer }}</p>
+                    <p>Fabriquant: {{ item.maker }}</p>
+                    <p>
+                        <a href="{{ path('app_item_show', {'id': item.id}) }}">show</a>
+                        <a href="{{ path('app_item_edit', {'id': item.id}) }}">edit</a>
+                    </p>
+                </div>
+            {% else %}
+                <p>Aucun item n'a été trouvé</p>
+            {% endfor %}
+    </div>
 
     <a href="{{ path('app_item_new') }}">Create new</a>
 {% endblock %}
