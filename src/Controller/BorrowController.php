@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Borrow;
 use App\Form\BorrowType;
 use App\Repository\BorrowRepository;
+use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,15 +23,24 @@ class BorrowController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_borrow_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/borrow/new/{id}', name: 'app_borrow_new_test', methods: ['GET', 'POST'])]
+    public function new
+    (
+        int $id,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ItemRepository $itemRepository
+    ): Response
     {
+        $item = $itemRepository->find($id);
         $borrow = new Borrow();
         $form = $this->createForm(BorrowType::class, $borrow);
         $form->handleRequest($request);
-
+        $borrow->setUser($this->getUser());
+        $item->setBorrow($borrow);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($borrow);
+            $entityManager->persist($item);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_borrow_index', [], Response::HTTP_SEE_OTHER);
@@ -38,7 +48,7 @@ class BorrowController extends AbstractController
 
         return $this->render('borrow/new.html.twig', [
             'borrow' => $borrow,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -64,7 +74,7 @@ class BorrowController extends AbstractController
 
         return $this->render('borrow/edit.html.twig', [
             'borrow' => $borrow,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
