@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="w-full flex flex-col ">
+        <h1 class="text-2xl ml-4">Résultat de recherche</h1>
+        {% for item in items %}
+            <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+                <p>Id: {{ item.id }}</p>
+                <p>Titre: {{ item.title }}</p>
+                <p>Auteur: {{ item.author }}</p>
+                <p>Editeur: {{ item.editor }}</p>
+                <p>Développeur: {{ item.dev }}</p>
+                <p>Plateforme: {{ item.platform }}</p>
+                <p>Nb joeurs: {{ item.nbPlayer }}</p>
+                <p>Fabriquant: {{ item.maker }}</p>
+                <div class="mt-4">
+                    <a href="{{ path('app_item_show', {'id': item.id}) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">show</a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun item n'a été trouvé</p>
+        {% endfor %}
+    </div>
+{% endblock %}
+

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Collections;
-use App\Form\AddItemToCollectionsType;
 use App\Form\CollectionType;
 use App\Repository\CollectionsRepository;
 use App\Repository\ItemRepository;
@@ -112,7 +111,7 @@ class CollectionsController extends AbstractController
 
     }
 
-    #[Route('/collection/search/{id}', name:'app_collections_searchitems')]
+    #[Route('/search/{id}', name:'app_collections_searchitems')]
     public function searchItems
     (
         Collections $collections,
@@ -123,10 +122,9 @@ class CollectionsController extends AbstractController
         if ($request->isMethod('POST')) {
             $items = $itemRepository->searchItemByTitle($_POST['title'], $collections->getId());
 
-            foreach ($items as $item){
-                dump($item);
-            }
-            die();
+           return $this->render('collection/searchResult.html.twig', [
+                'items' => $items,
+            ]);
         }
 
         return $this->render('home/index.html.twig');
