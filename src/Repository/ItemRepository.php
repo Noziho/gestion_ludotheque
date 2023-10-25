@@ -21,6 +21,17 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
+    public function searchItemByTitle (string $title, int $id)
+    {
+        $query = $this->createQueryBuilder('i');
+        if ($title && $id){
+            $query->andWhere('i.collections_id = ' . $id . 'AND i.title LIKE :title')
+                ->setParameter('title', '%' . $title . '%')
+            ;
+        }
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Item[] Returns an array of Item objects
 //     */
