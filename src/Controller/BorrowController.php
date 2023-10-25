@@ -36,9 +36,17 @@ class BorrowController extends AbstractController
         $borrow = new Borrow();
         $form = $this->createForm(BorrowType::class, $borrow);
         $form->handleRequest($request);
-        $borrow->setUser($this->getUser());
-        $item->setBorrow($borrow);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($item && $item->getBorrow() === null) {
+                $borrow->setUser($this->getUser());
+                $item->setBorrow($borrow);
+            }
+            else {
+                dd('Le livre a déjà été emprunter svp dégage');
+            }
+
             $entityManager->persist($borrow);
             $entityManager->persist($item);
             $entityManager->flush();
