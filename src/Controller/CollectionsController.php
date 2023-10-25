@@ -111,4 +111,24 @@ class CollectionsController extends AbstractController
         ]);
 
     }
+
+    #[Route('/collection/search/{id}', name:'app_collections_searchitems')]
+    public function searchItems
+    (
+        Collections $collections,
+        ItemRepository $itemRepository,
+        Request $request
+    ): Response
+    {
+        if ($request->isMethod('POST')) {
+            $items = $itemRepository->searchItemByTitle($_POST['title'], $collections->getId());
+
+            foreach ($items as $item){
+                dump($item);
+            }
+            die();
+        }
+
+        return $this->render('home/index.html.twig');
+    }
 }

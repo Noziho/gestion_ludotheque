@@ -25,7 +25,7 @@ class ItemRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('i');
         if ($title && $id){
-            $query->andWhere('i.collections_id = ' . $id . 'AND i.title LIKE :title')
+            $query->andWhere('i.collections = ' . $id . 'AND i.title LIKE :title')
                 ->setParameter('title', '%' . $title . '%')
             ;
         }
