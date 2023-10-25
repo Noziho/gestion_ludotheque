@@ -3,12 +3,13 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1 class="text-4xl mt-4 ml-4">Profil</h1>
+    <div class="w-full flex flex-col ">
+        <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+            <p>Mail: {{ user.email }}</p>
+            <p>Peudo: {{ user.pseudo }}</p>
 
-    <p>Mail: {{ user.email }}</p>
-    <p>Peudo: {{ user.pseudo }}</p>
-
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}">Editer</a>
+        </div>
+    </div>
 {% endblock %}
