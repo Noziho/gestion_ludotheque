@@ -3,28 +3,31 @@
 {% block title %}Borrow{% endblock %}
 
 {% block body %}
-    <h1>Borrow</h1>
+<div class="w-full flex flex-col ">
+    <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+        <h1 class="text-4xl">Détails de l'emprunt</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ borrow.id }}</td>
-            </tr>
-            <tr>
-                <th>StartDate</th>
-                <td>{{ borrow.startDate ? borrow.startDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndDate</th>
-                <td>{{ borrow.endDate ? borrow.endDate|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <p>Start date:{{ borrow.startDate ? borrow.startDate|date('Y-m-d') : '' }}</p>
+        <p>End date: {{ borrow.endDate ? borrow.endDate|date('Y-m-d') : '' }}</p>
 
-    <a href="{{ path('app_borrow_index') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">back to list</a>
+        <h2 class="text-2xl">Item emprunter</h2>
+        {% for item in borrow.item %}
+            <div class="mt-10">
+                <p>Titre: {{ item.title }}</p>
+                <p>Auteur: {{ item.author }}</p>
+                <p>Editeur: {{ item.editor }}</p>
+                <p>Dev: {{ item.dev }}</p>
+                <p>Plateforme: {{ item.platform }}</p>
+                <p>Nombre de joueurs: {{ item.nbPlayer }}</p>
+                <p>Fabriquant: {{ item.nbPlayer }}</p>
+                <p>Catégorie: {{ item.category.name }}</p>
+            </div>
+        {% endfor %}
 
-    <a href="{{ path('app_borrow_edit', {'id': borrow.id}) }}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Editer</a>
 
-    {{ include('borrow/_delete_form.html.twig') }}
+        <div class="mt-4 flex-wrap flex">
+            <a href="{{ path('app_borrow_index') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">back to list</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

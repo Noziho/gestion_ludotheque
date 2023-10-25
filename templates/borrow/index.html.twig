@@ -3,33 +3,21 @@
 {% block title %}Borrow index{% endblock %}
 
 {% block body %}
-    <h1>Borrow index</h1>
+    <h1 class="text-4xl">Borrow index</h1>
+<div class="w-full flex flex-col ">
+    <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
+    {% for borrow in borrows %}
+        <div class="p-2.5">
+            <p>Date de départ: {{ borrow.startDate ? borrow.startDate|date('Y-m-d') : '' }}</p>
+            <p>Date de fin: {{ borrow.endDate ? borrow.endDate|date('Y-m-d') : '' }}</p>
+            <p class="mt-4"><a href="{{ path('app_borrow_show', {'id': borrow.id}) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">show</a></p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for borrow in borrows %}
-            <tr>
-                <td>{{ borrow.id }}</td>
-                <td>{{ borrow.startDate ? borrow.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ borrow.endDate ? borrow.endDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_borrow_show', {'id': borrow.id}) }}">show</a>
-                    <a href="{{ path('app_borrow_edit', {'id': borrow.id}) }}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Editer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        </div>
+
+
+            {% else %}
+                <p>Vous n'avez aucun emprunt</p>
+            {% endfor %}
+    </div>
+</div>
 {% endblock %}
