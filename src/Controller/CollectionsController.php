@@ -111,8 +111,8 @@ class CollectionsController extends AbstractController
 
     }
 
-    #[Route('/search/{id}', name:'app_collections_searchitems')]
-    public function searchItems
+    #[Route('/search/title/{id}', name:'app_collections_searchitems_by_title')]
+    public function searchItemsByTitle
     (
         Collections $collections,
         ItemRepository $itemRepository,
@@ -123,6 +123,25 @@ class CollectionsController extends AbstractController
             $items = $itemRepository->searchItemByTitle($_POST['title'], $collections->getId());
 
            return $this->render('collection/searchResult.html.twig', [
+                'items' => $items,
+            ]);
+        }
+
+        return $this->render('home/index.html.twig');
+    }
+
+    #[Route('/search/editor/{id}', name:'app_collections_searchitems_by_editor')]
+    public function searchItemsByEditor
+    (
+        Collections $collections,
+        ItemRepository $itemRepository,
+        Request $request
+    ): Response
+    {
+        if ($request->isMethod('POST')) {
+            $items = $itemRepository->searchItemByEditor($_POST['editor'], $collections->getId());
+
+            return $this->render('collection/searchResult.html.twig', [
                 'items' => $items,
             ]);
         }

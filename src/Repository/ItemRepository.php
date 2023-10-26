@@ -32,6 +32,17 @@ class ItemRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function searchItemByEditor (string $editor, int $id)
+    {
+        $query = $this->createQueryBuilder('i');
+        if ($editor && $id){
+            $query->andWhere('i.collections = ' . $id . 'AND i.editor LIKE :editor')
+                ->setParameter('editor', '%' . $editor . '%')
+            ;
+        }
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Item[] Returns an array of Item objects
 //     */
