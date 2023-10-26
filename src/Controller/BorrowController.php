@@ -6,6 +6,8 @@ use App\Entity\Borrow;
 use App\Form\BorrowType;
 use App\Repository\BorrowRepository;
 use App\Repository\ItemRepository;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,30 +36,31 @@ class BorrowController extends AbstractController
     {
         $item = $itemRepository->find($id);
         $borrow = new Borrow();
-        $form = $this->createForm(BorrowType::class, $borrow);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        if($request->isMethod('POST'))
+        {
             if ($item && $item->getBorrow() === null) {
+                $today = new DateTime();
+                $endDate = $today->add(new DateInterval('P7D'));
+                $borrow->setStartDate($today);
+                $borrow->setEndDate($endDate);
                 $borrow->setUser($this->getUser());
                 $item->setBorrow($borrow);
             }
             else {
-                dd('Le livre a déjà été emprunter svp dégage');
+                $this->addFlash('error', "L'item à déjà été emprunter");
+                return $this->redirectToRoute('app_item_index');
             }
 
             $entityManager->persist($borrow);
             $entityManager->persist($item);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Emprunter avec succès');
             return $this->redirectToRoute('app_borrow_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->render('borrow/new.html.twig', [
-            'borrow' => $borrow,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('home/index.html.twig');
     }
 
     #[Route('/{id}', name: 'app_borrow_show', methods: ['GET'])]
