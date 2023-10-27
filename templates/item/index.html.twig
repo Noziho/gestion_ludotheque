@@ -4,6 +4,11 @@
 
 {% block body %}
 
+    {% for error in app.flashes('error') %}
+        <div>
+            {{ error }}
+        </div>
+    {% endfor %}
     <h1 class="text-2xl ml-4">Item index</h1>
     <div class="w-full flex flex-col ">
             {% for item in items %}

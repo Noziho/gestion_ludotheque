@@ -3,6 +3,17 @@
 {% block title %}Collection index{% endblock %}
 
 {% block body %}
+    {% for success in app.flashes('success') %}
+        <div>
+            {{ success }}
+        </div>
+    {% endfor %}
+
+    {% for error in app.flashes('error') %}
+        <div>
+            {{ error }}
+        </div>
+    {% endfor %}
     <h1 class="text-2xl ml-4">Mes collections : </h1>
 
     <div class="w-full flex flex-col ">

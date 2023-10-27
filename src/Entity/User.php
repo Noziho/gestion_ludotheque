@@ -37,9 +37,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Borrow::class)]
     private Collection $borrow;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Collections::class)]
+    private Collection $collections;
+
     public function __construct()
     {
         $this->borrow = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +152,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($borrow->getUser() === $this) {
                 $borrow->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collections>
+     */
+    public function getCollections(): Collection
+    {
+        return $this->collections;
+    }
+
+    public function addCollection(Collections $collection): static
+    {
+        if (!$this->collections->contains($collection)) {
+            $this->collections->add($collection);
+            $collection->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollection(Collections $collection): static
+    {
+        if ($this->collections->removeElement($collection)) {
+            // set the owning side to null (unless already changed)
+            if ($collection->getUser() === $this) {
+                $collection->setUser(null);
             }
         }
 

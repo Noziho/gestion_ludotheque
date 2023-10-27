@@ -100,6 +100,7 @@ class BorrowController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('error', "L'emprunt à bien été éditer");
             return $this->redirectToRoute('app_borrow_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -122,7 +123,7 @@ class BorrowController extends AbstractController
             $entityManager->remove($borrow);
             $entityManager->flush();
         }
-
+        $this->addFlash('success', "L'emprunt à bien été supprimer");
         return $this->redirectToRoute('app_borrow_index', [], Response::HTTP_SEE_OTHER);
     }
 }

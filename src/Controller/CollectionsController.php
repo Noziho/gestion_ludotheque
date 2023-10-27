@@ -6,6 +6,7 @@ use App\Entity\Collections;
 use App\Form\CollectionType;
 use App\Repository\CollectionsRepository;
 use App\Repository\ItemRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,10 +22,10 @@ class CollectionsController extends AbstractController
      * Display the main pages for all collections
      */
     #[Route('/', name: 'app_collection_index', methods: ['GET'])]
-    public function index(CollectionsRepository $collectionRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
         return $this->render('collection/index.html.twig', [
-            'collections' => $collectionRepository->findAll(),
+            'collections' => $userRepository->find($this->getUser())->getCollections()
         ]);
     }
 
@@ -43,9 +44,10 @@ class CollectionsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $collection->setUser($this->getUser());
             $entityManager->persist($collection);
             $entityManager->flush();
-
+            $this->addFlash('success', "La collection à bien été créer");
             return $this->redirectToRoute('app_collection_index', [], Response::HTTP_SEE_OTHER);
         }
 
