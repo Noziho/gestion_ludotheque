@@ -25,6 +25,14 @@ class BorrowController extends AbstractController
         ]);
     }
 
+    /**
+     * @param int $id
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param ItemRepository $itemRepository
+     * @return Response
+     * Add a new borrow for an item
+     */
     #[Route('/borrow/new/{id}', name: 'app_borrow_new_test', methods: ['GET', 'POST'])]
     public function new
     (
@@ -63,6 +71,11 @@ class BorrowController extends AbstractController
         return $this->render('home/index.html.twig');
     }
 
+    /**
+     * @param Borrow $borrow
+     * @return Response
+     * Display a borrow by is ID
+     */
     #[Route('/{id}', name: 'app_borrow_show', methods: ['GET'])]
     public function show(Borrow $borrow): Response
     {
@@ -71,6 +84,13 @@ class BorrowController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Borrow $borrow
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     * Edit a borrow
+     */
     #[Route('/{id}/edit', name: 'app_borrow_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Borrow $borrow, EntityManagerInterface $entityManager): Response
     {
@@ -89,6 +109,12 @@ class BorrowController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Borrow $borrow
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_borrow_delete', methods: ['POST'])]
     public function delete(Request $request, Borrow $borrow, EntityManagerInterface $entityManager): Response
     {

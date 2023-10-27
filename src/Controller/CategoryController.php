@@ -14,6 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/category')]
 class CategoryController extends AbstractController
 {
+    /**
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     * Display the main page for Category with all categories on it
+     */
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
     public function index(CategoryRepository $categoryRepository): Response
     {
@@ -22,6 +27,12 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     * Add a new category
+     */
     #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -42,6 +53,11 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Category $category
+     * @return Response
+     * Show a category by is ID
+     */
     #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
@@ -50,6 +66,13 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Category $category
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     * Edit a category
+     */
     #[Route('/{id}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {

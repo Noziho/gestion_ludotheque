@@ -15,6 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/collection')]
 class CollectionsController extends AbstractController
 {
+    /**
+     * @param CollectionsRepository $collectionRepository
+     * @return Response
+     * Display the main pages for all collections
+     */
     #[Route('/', name: 'app_collection_index', methods: ['GET'])]
     public function index(CollectionsRepository $collectionRepository): Response
     {
@@ -23,6 +28,13 @@ class CollectionsController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     * Add a new Collection
+     */
     #[Route('/new', name: 'app_collection_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -43,6 +55,11 @@ class CollectionsController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Collections $collection
+     * @return Response
+     * Show a collection by ID
+     */
     #[Route('/{id}', name: 'app_collection_show', methods: ['GET'])]
     public function show(Collections $collection): Response
     {
@@ -51,6 +68,13 @@ class CollectionsController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Collections $collection
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     * Edit a collection
+     */
     #[Route('/{id}/edit', name: 'app_collection_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Collections $collection, EntityManagerInterface $entityManager): Response
     {
@@ -80,6 +104,14 @@ class CollectionsController extends AbstractController
         return $this->redirectToRoute('app_collection_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    /**
+     * @param Request $request
+     * @param CollectionsRepository $collectionsRepository
+     * @param EntityManagerInterface $em
+     * @param ItemRepository $itemRepository
+     * @return Response
+     * Add an item in a collection
+     */
     #[Route('/collection/add', name: 'app_collections_additems', methods: ['POST', 'GET'])]
     public function addItems
     (Request $request,
@@ -88,7 +120,6 @@ class CollectionsController extends AbstractController
      ItemRepository $itemRepository
     ): Response
     {
-
         if ($request->isMethod('POST')) {
             $collection = $collectionsRepository->find($_POST['collections']);
             $item = $itemRepository->find($_POST['items']);
@@ -100,8 +131,6 @@ class CollectionsController extends AbstractController
 
                 $em->flush();
             }
-
-
         }
 
         return  $this->render('collection/addItem.html.twig', [
@@ -111,6 +140,13 @@ class CollectionsController extends AbstractController
 
     }
 
+    /**
+     * @param Collections $collections
+     * @param ItemRepository $itemRepository
+     * @param Request $request
+     * @return Response
+     * Search an item by a collection and is title
+     */
     #[Route('/search/title/{id}', name:'app_collections_searchitems_by_title')]
     public function searchItemsByTitle
     (
@@ -130,6 +166,12 @@ class CollectionsController extends AbstractController
         return $this->render('home/index.html.twig');
     }
 
+    /**
+     * @param Collections $collections
+     * @param ItemRepository $itemRepository
+     * @param Request $request
+     * @return Response
+     * Search an item by a collection and is editor     */
     #[Route('/search/editor/{id}', name:'app_collections_searchitems_by_editor')]
     public function searchItemsByEditor
     (

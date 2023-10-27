@@ -16,7 +16,14 @@ class MailService
     }
 
     /**
+     * @param string $from
+     * @param string $subject
+     * @param string $template
+     * @param array $context
+     * @param string $to
+     * @return void
      * @throws TransportExceptionInterface
+     * Service Method for send a mail
      */
     public function sendMail
     (string $from,
@@ -35,6 +42,5 @@ class MailService
         ;
 
         $this->mailer->send($email);
-
     }
 }
