@@ -3,6 +3,17 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+    {% for success in app.flashes('success') %}
+        <div>
+            {{ success }}
+        </div>
+    {% endfor %}
+
+    {% for error in app.flashes('error') %}
+        <div>
+            {{ error }}
+        </div>
+    {% endfor %}
 <h1>Home</h1>
 
     <div class="w-full min-h-screen flex flex-wrap justify-center mt-52">

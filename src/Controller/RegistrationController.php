@@ -51,7 +51,6 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
             $entityManager->persist($user);
             $entityManager->flush();
             // Send a mail to the new user
@@ -61,6 +60,7 @@ class RegistrationController extends AbstractController
                 ],
                 $user->getEmail(),
             );
+            $this->addFlash('success', 'Inscription réussi');
 
             return $userAuthenticator->authenticateUser(
                 $user,

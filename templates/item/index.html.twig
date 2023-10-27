@@ -4,6 +4,12 @@
 
 {% block body %}
 
+    {% for success in app.flashes('success') %}
+        <div>
+            {{ success }}
+        </div>
+    {% endfor %}
+
     {% for error in app.flashes('error') %}
         <div>
             {{ error }}

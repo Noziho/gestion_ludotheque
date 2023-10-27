@@ -1,6 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% for success in app.flashes('success') %}
+        <div>
+            {{ success }}
+        </div>
+    {% endfor %}
+
+    {% for error in app.flashes('error') %}
+        <div>
+            {{ error }}
+        </div>
+    {% endfor %}
     <div class="w-full flex flex-col mt-80 ">
         <div class="bg-lightenDarkBlue w-1/2 p-4 mt-4 self-center">
         <form action="{{ path('app_collections_additems') }}" method="POST">

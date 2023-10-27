@@ -43,13 +43,13 @@ class ItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($item);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Votre item a bien été créer');
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('item/new.html.twig', [
             'item' => $item,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -74,13 +74,13 @@ class ItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'Votre item a bien été éditer');
             return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('item/edit.html.twig', [
             'item' => $item,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -90,6 +90,7 @@ class ItemController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
             $entityManager->remove($item);
             $entityManager->flush();
+            $this->addFlash('success', 'Votre item a bien été supprimer');
         }
 
         return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);

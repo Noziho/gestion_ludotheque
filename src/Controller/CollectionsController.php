@@ -101,6 +101,8 @@ class CollectionsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$collection->getId(), $request->request->get('_token'))) {
             $entityManager->remove($collection);
             $entityManager->flush();
+
+            $this->addFlash('success', 'La collection à bien été supprimer');
         }
 
         return $this->redirectToRoute('app_collection_index', [], Response::HTTP_SEE_OTHER);
@@ -125,13 +127,24 @@ class CollectionsController extends AbstractController
         if ($request->isMethod('POST')) {
             $collection = $collectionsRepository->find($_POST['collections']);
             $item = $itemRepository->find($_POST['items']);
+            if ($collection && $item){
+                if ($item->getCategory()->getId() === $collection->getCategory()->getId()){
+                    $collection->addItem($item);
 
-            if ($item->getCategory()->getId() === $collection->getCategory()->getId()){
-                $collection->addItem($item);
+                    $em->persist($collection);
 
-                $em->persist($collection);
+                    $em->flush();
+                    $this->addFlash('success', "L'item à bien été ajouter à votre collection");
 
-                $em->flush();
+                }
+                else {
+                    $this->addFlash('error', "Les catégories ne correspondent pas");
+                }
+                return  $this->render('collection/addItem.html.twig', [
+                    'collections' => $collectionsRepository->findAll(),
+                    'items' => $itemRepository->findAll(),
+                ]);
+
             }
         }
 
@@ -139,7 +152,6 @@ class CollectionsController extends AbstractController
             'collections' => $collectionsRepository->findAll(),
             'items' => $itemRepository->findAll(),
         ]);
-
     }
 
     /**
